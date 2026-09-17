@@ -163,7 +163,6 @@ In keeping with the 2–3 hour assessment guideline, the following items are ear
 
 - [ ] **Search Implementation**: Debounced search bar connected to the endpoint to handle server requests efficiently.
 - [ ] **Automated Unit Testing**: Jest + React Native Testing Library suites for `productsApi.ts` and `useProducts.ts` state assertions.
-- [ ] **Offline Caching**: Integrate `@react-native-async-storage/async-storage` or `expo-file-system` to cache catalog pages for offline browsing.
 
 ---
 
