@@ -29,6 +29,13 @@ export default function RootLayout() {
             title: 'Catalog',
           }}
         />
+        <Stack.Screen
+          name="product"
+          options={{
+            title: 'Product Description',
+            headerBackTitle: 'Back',
+          }}
+        />
       </Stack>
     </SafeAreaProvider>
   );

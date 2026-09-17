@@ -9,7 +9,10 @@ export default function CatalogScreen() {
     const { products, loadingMore, hasMore, total, loadMore } = useProducts();
 
     const handleSelectProduct = (product: Product) => {
-        console.log('Selected product:', product.id);
+        router.push({
+            pathname: '/product',
+            params: { id: String(product.id) },
+        });
     };
 
     return (
