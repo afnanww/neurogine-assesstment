@@ -3,12 +3,12 @@ import { Product } from '../types/products';
 
 export interface ProductCardProps {
     product: Product;
-    onPress: (product: Product) => void;
+    onPress?: (product: Product) => void;
 }
 export default function ProductCard({ product, onPress }: ProductCardProps) {
 
     return (
-        <Pressable onPress={() => onPress(product)} style={styles.card}
+        <Pressable onPress={() => onPress && onPress(product)} style={styles.card}
             accessibilityLabel={product.title}
             accessibilityRole="button"
         >
