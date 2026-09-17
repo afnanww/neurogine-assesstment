@@ -6,9 +6,11 @@ export interface UseProductsResult {
     products: Product[];
     loading: boolean;
     loadingMore: boolean;
+    refreshing: boolean;
     hasMore: boolean;
     total: number;
     loadMore: () => void;
+    refresh: () => Promise<void>;
 }
 
 /**
@@ -20,6 +22,7 @@ export function useProducts(): UseProductsResult {
     //load more
     const [loading, setLoading] = useState<boolean>(true);
     const [loadingMore, setLoadingMore] = useState<boolean>(false);
+    const [refreshing, setRefreshing] = useState<boolean>(false);
     const [total, setTotal] = useState<number>(0);
 
     //refs to prevent duplicate calls and stale closures during fast scrolling
@@ -39,8 +42,10 @@ export function useProducts(): UseProductsResult {
                 if (!isMounted) return;
 
                 const items = data.products || [];
-                setProducts(items);
-                productsLengthRef.current = items.length;
+                //randomizer
+                const randomized = [...items].sort(() => Math.random() - 0.5);
+                setProducts(randomized);
+                productsLengthRef.current = randomized.length;
 
                 const totalItems = data.total || 0;
                 setTotal(totalItems);
@@ -64,6 +69,34 @@ export function useProducts(): UseProductsResult {
         };
     }, []);
 
+    // Refresh and randomize products list
+    const refresh = useCallback(async () => {
+        if (isFetchingRef.current || loading) return;
+
+        isFetchingRef.current = true;
+        setRefreshing(true);
+
+        try {
+            const data = await fetchProducts({ limit: 20, skip: 0 });
+            const items = data.products || [];
+            // 1-liner randomize
+            const randomized = [...items].sort(() => Math.random() - 0.5);
+
+            setProducts(randomized);
+            productsLengthRef.current = randomized.length;
+
+            const totalItems = data.total || 0;
+            setTotal(totalItems);
+            totalRef.current = totalItems;
+            skipRef.current = items.length;
+        } catch (err) {
+            console.error('[useProducts.refresh Error]:', err);
+        } finally {
+            setRefreshing(false);
+            isFetchingRef.current = false;
+        }
+    }, [loading]);
+
     // Load more function for infinite scroll
     const loadMore = useCallback(async () => {
         // Stop if already fetching or if we reached the total items
@@ -71,6 +104,7 @@ export function useProducts(): UseProductsResult {
             isFetchingRef.current ||
             loading ||
             loadingMore ||
+            refreshing ||
             (totalRef.current > 0 && productsLengthRef.current >= totalRef.current)
         ) {
             return;
@@ -105,9 +139,9 @@ export function useProducts(): UseProductsResult {
             setLoadingMore(false);
             isFetchingRef.current = false;
         }
-    }, [loading, loadingMore]);
+    }, [loading, loadingMore, refreshing]);
 
     const hasMore = total === 0 || products.length < total;
 
-    return { products, loading, loadingMore, hasMore, total, loadMore };
+    return { products, loading, loadingMore, refreshing, hasMore, total, loadMore, refresh };
 }

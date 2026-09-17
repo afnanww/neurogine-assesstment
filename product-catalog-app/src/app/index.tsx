@@ -6,7 +6,7 @@ import { useRouter } from 'expo-router';
 
 export default function CatalogScreen() {
     const router = useRouter();
-    const { products, loadingMore, hasMore, total, loadMore } = useProducts();
+    const { products, loadingMore, hasMore, total, loadMore, refreshing, refresh } = useProducts();
 
     const handleSelectProduct = (product: Product) => {
         router.push({
@@ -24,6 +24,8 @@ export default function CatalogScreen() {
                 hasMore={hasMore}
                 total={total}
                 onLoadMore={loadMore}
+                refreshing={refreshing}
+                onRefresh={refresh}
             />
         </View>
     );

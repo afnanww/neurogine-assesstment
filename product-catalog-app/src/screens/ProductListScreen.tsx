@@ -10,6 +10,9 @@ export interface ProductListScreenProps {
     hasMore?: boolean;
     total?: number;
     onLoadMore?: () => void;
+    //refresh props
+    refreshing?: boolean;
+    onRefresh?: () => void;
 }
 /**
  * ProductListScreen
@@ -22,7 +25,11 @@ export default function ProductListScreen({
     hasMore = false,
     total,
     onLoadMore,
+    refreshing = false,
+    onRefresh,
+
 }: ProductListScreenProps) {
+    //footer to load more after LIMIT
     const renderFooter = () => {
         if (loadingMore) {
             return (
@@ -31,8 +38,7 @@ export default function ProductListScreen({
                 </View>
             );
         }
-
-
+        //footer to show end
         if (!hasMore && products.length > 0) {
             return (
                 <View style={styles.footerEnd}>
@@ -69,6 +75,8 @@ export default function ProductListScreen({
                 onEndReached={handleEndReached}
                 onEndReachedThreshold={0.3}
                 ListFooterComponent={renderFooter}
+                refreshing={refreshing}
+                onRefresh={onRefresh}
             />
         </View>
     );
