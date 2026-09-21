@@ -169,6 +169,6 @@ In keeping with the 2–3 hour assessment guideline, the following items are ear
 ## 🤖 Note on AI Usage
 
 In full transparency and adherence to the assessment guidelines:
-- **Core Architecture & Implementation**: The layered project structure, React hook concurrency controls (`useRef` lock pattern), component modularity, and error/empty state design were authored and implemented directly for this project. Used AI for researches purpose such the worry on mobile design, like the ScreenSafeArea, on user experience and the standard of mobile development and also things that need consider on mobile development. Entirely on research in structuring the architecture.
+- **Core Architecture & Implementation**: The layered project structure, React hook concurrency controls, component modularity, and state design were authored and implemented directly for this project. Used AI for researches purpose such the worry on mobile design, like the ScreenSafeArea, on user experience and the standard of mobile development and also things that need consider on mobile development. Entirely on research in structuring the architecture.
 
 - **AI Assistance**: AI tools were utilized strictly for syntax lookup and comparism, Expo Router route configuration verification, and assisting in formatting this README documentation.
